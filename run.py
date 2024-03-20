@@ -12,35 +12,66 @@ users = {
         'id' : 2,
         'username' : 'Goodsoldier1p1_7',
         'email' : 'soldier1p1@gmail.com'
+    },
+    3:{
+        'id' : 3,
+        'username' : 'Humblebetuna',
+        'email' : 'humbletuna@gmail.com'
     }
 }
 
 
 games = {
     1: {
-        'name' : 'Rust',
+        'Name' : 'Rust',
         'Studio' : 'Facepunch',
-        'Description' : 'Harcore FPS Survival game, Youre not safe even when you are'
+        'Release Date' : 'December 11, 2013',
+        'Description' : 'Harcore FPS Survival game, Youre not safe even when you are',
+        'Genre' : 'FPS, Survival'
     },
     2: {
-        'name' : 'Rainbow 6 Siege',
+        'Name' : 'Rainbow 6 Siege',
         'Studio' : 'Ubisoft',
-        'Description' : 'Search and destroy style 5v5 tactical FPS game'
+        'Release Date' : 'December 1, 2015',
+        'Description' : 'Search and destroy style 5v5 tactical FPS game',
+        'Genre' : 'FPS-tactical'
     },
     3: {
-        'name' : 'Counter-Strike 2',
+        'Name' : 'Counter-Strike 2',
         'Studio' : 'Valve',
-        'Description' : 'Defuse the bomb, or rescue the hostage style game modes. 6v6 tactical FPS'
+        'Release Date' : 'November 1, 2000',
+        'Description' : 'Defuse the bomb, or rescue the hostage style game modes. 6v6 tactical FPS',
+        'Genre' : 'FPS-tactical'
     },
     4: {
-        'name' : 'World of Warcraft',
-        'Studio' : 'Blizzard/Activision/Microsoft',
-        'Description' : 'MMORPG with an emphasis on pure end game content. Or collectible farming. Kind of bad nowadays'
+        'Name' : 'World of Warcraft',
+        'Studio' : 'Blizzard',
+        'Release Date' : 'November 23, 2004',
+        'Description' : 'MMORPG with an emphasis on pure end game content. Or collectible farming. Kind of bad nowadays',
+        'Genre' : 'MMO, RPG, MMORPG'
     },
     5: {
-        'name' : 'League of Legends',
+        'Name' : 'League of Legends',
         'Studio' : 'Riot games',
-        'Description' : '5v5 top down view game. Fight over tower objectives and destroy the enemy\'s nexus to win!'
+        'Release Date' : 'October 27, 2009',
+        'Description' : '5v5 top down view game. Fight over tower objectives and destroy the enemy\'s nexus to win!',
+        'Genre' : 'MOBA'
+    }
+}
+
+
+genres = {
+    1: {
+        'genre' : "FPS (First-Person Shooter) games"
+    },
+    2: {
+        'genre' : "MMORPG (Massive Multiplayer Online Role-Playing game) games"
+    },
+    3: {
+        'genre' : "SURVIVAL games"
+    },
+    4: {
+        'genre' : "MOBA (Multiplayer Online Battle Arena) games"
     }
 }
 
@@ -86,6 +117,12 @@ def get_users():
 def get_games():
     return {
         'games' : list(games.values())
+    }
+
+@app.route('/genres')
+def get_genres():
+    return {
+        'genres' : list(genres.values())
     }
 
 @app.route('/user/<int:id>')
@@ -163,6 +200,40 @@ def delete_game():
         }
     return {
         'error' : "can't delete what isn't there!"
+    }
+
+
+@app.route('/genres', methods=['POST'])
+def create_genre():
+    data = request.get_json()
+    print(data)
+    genres[data['genre']] = data
+    return {
+        'Genre added successfully' : f"data{['genre']} has been added! NICE!"
+    }
+
+@app.route('/genres', methods=['PUT'])
+def update_genre():
+    data = request.get_json()
+    if data['genre'] in genres:
+        genres[data['genre']] = data
+        return {
+            'Genre updated' : f"data{['genre']} has some new info!"
+        }
+    return {
+        'error' : "No genre found with that name"
+    }
+
+@app.route('/genres', methods=['DELETE'])
+def delete_genre():
+    data = request.get_json()
+    if data['genre'] in genres:
+        del genres[data['genre']]
+        return {
+            'Genre has been deleted' : f"data{['genre']} is no longer around"
+        }
+    return {
+        'ERROR OI ERROR' : "You can't delete something that doesn't exist!"
     }
 
 app.run()
