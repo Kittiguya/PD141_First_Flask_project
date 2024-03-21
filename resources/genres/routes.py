@@ -1,19 +1,19 @@
 from flask import request
 
+from . import bp
 
-from app import app
 from db import genres
 
 
 
-@app.route('/genres')
+@bp.route('/genres')
 def get_genres():
     return {
         'genres' : list(genres.values())
     }
 
 
-@app.route('/genres', methods=['POST'])
+@bp.route('/genres', methods=['POST'])
 def create_genre():
     data = request.get_json()
     print(data)
@@ -22,7 +22,7 @@ def create_genre():
         'Genre added successfully' : f"data{['genre']} has been added! NICE!"
     }
 
-@app.route('/genres', methods=['PUT'])
+@bp.route('/genres', methods=['PUT'])
 def update_genre():
     data = request.get_json()
     if data['genre'] in genres:
@@ -34,7 +34,7 @@ def update_genre():
         'error' : "No genre found with that name"
     }
 
-@app.route('/genres', methods=['DELETE'])
+@bp.route('/genres', methods=['DELETE'])
 def delete_genre():
     data = request.get_json()
     if data['genre'] in genres:

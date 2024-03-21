@@ -1,20 +1,20 @@
 from flask import request
 
 
-from app import app
+from . import bp
 from db import games
 
 
 
 
-@app.route('/games')
+@bp.route('/games')
 def get_games():
     return {
         'games' : list(games.values())
     }
 
 
-@app.route('/games', methods=['POST'])
+@bp.route('/games', methods=['POST'])
 def create_game():
     data = request.get_json()
     print(data)
@@ -23,7 +23,7 @@ def create_game():
         'Game added successfully' : games['name']
     }
 
-@app.route('/games', methods=['PUT'])
+@bp.route('/games', methods=['PUT'])
 def update_game():
     data = request.get_json()
     if data['name'] in games:
@@ -35,13 +35,13 @@ def update_game():
         'error' : 'No game found with that name'
     }
 
-@app.route('/games', methods=['DELETE'])
+@bp.route('/games', methods=['DELETE'])
 def delete_game():
     data = request.get_json()
     if 'name' in games:
         del games['name']
         return {
-            'Game has been deleted' : f"Game {data} has been deleted."
+            'Game has been deleted' : f"Game {data}."
         }
     return {
         'error' : "can't delete what isn't there!"

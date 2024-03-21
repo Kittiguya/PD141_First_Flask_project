@@ -1,17 +1,18 @@
 from flask import request
 
-from app import app
+from . import bp
+
 from db import users
 
 
 
-@app.route('/users')
+@bp.route('/users')
 def get_users():
     return {
         'users' : list(users.values())
     }
 
-@app.route('/user', methods=['POST'])
+@bp.route('/user', methods=['POST'])
 def create_user():
     data = request.get_json()
     print(data)
@@ -21,7 +22,7 @@ def create_user():
     }
 
 
-@app.route('/user/<int:id>')
+@bp.route('/user/<int:id>')
 def get_ind_user(id):
     if id in users:
         return {
@@ -32,7 +33,7 @@ def get_ind_user(id):
     }
 
 
-@app.route('/user', methods=['PUT'])
+@bp.route('/user', methods=['PUT'])
 def update_user():
     data = request.get_json()
     if data['id'] in users:
@@ -41,7 +42,7 @@ def update_user():
             'user updated' : users[data['id']]
         }
 
-@app.route('/user', methods=['DELETE'])
+@bp.route('/user', methods=['DELETE'])
 def delete_user():
     data = request.get_json()
     if data['id'] in users:
