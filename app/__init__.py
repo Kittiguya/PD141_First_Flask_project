@@ -3,6 +3,7 @@ from flask_smorest import Blueprint
 
 
 app = Flask(__name__)
+
 from resources.games import bp as games_bp
 app.register_blueprint(games_bp)
 

@@ -5,17 +5,26 @@ users = {
     1:{
         'id' : 1,
         'username' : 'Kittiguya',
-        'email' : 'Robinwalk31@gmail.com'
+        'email' : 'Robinwalk31@gmail.com',
+        'password' : 'Robinkicksrocks',
+        'first_name' : 'Robin',
+        'last_name' : 'Walker'
     }, 
     2:{
         'id' : 2,
         'username' : 'Goodsoldier1p1_7',
-        'email' : 'soldier1p1@gmail.com'
+        'email' : 'soldier1p1@gmail.com',
+        'password' : 'soldierwins25',
+        'first_name' : 'Daniel',
+        'last_name' : 'Amyx'
     },
     3:{
         'id' : 3,
         'username' : 'Humblebetuna',
-        'email' : 'humbletuna@gmail.com'
+        'email' : 'humbletuna@gmail.com',
+        'password' : 'humblebees24',
+        'first_name' : 'Aaron',
+        'last_name' : 'Echevarria'
     }
 }
 

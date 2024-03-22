@@ -1,5 +1,6 @@
 from flask import request
 
+from schemas import UserSchema
 from . import bp
 
 from db import users
@@ -12,13 +13,14 @@ def get_users():
         'users' : list(users.values())
     }
 
+
 @bp.route('/user', methods=['POST'])
 def create_user():
     data = request.get_json()
     print(data)
-    users[data['id']] = data
+    users['id'] = data
     return {
-        'User created successfully' : users[data['id']]
+        'User created successfully' : users['id']
     }
 
 
@@ -36,17 +38,18 @@ def get_ind_user(id):
 @bp.route('/user', methods=['PUT'])
 def update_user():
     data = request.get_json()
-    if data['id'] in users:
-        users[data['id']] = data 
+    if 'id' in users:
+        users['id'] = data 
         return {
-            'user updated' : users[data['id']]
+            'user updated' : users['id']
         }
 
 @bp.route('/user', methods=['DELETE'])
 def delete_user():
     data = request.get_json()
-    if data['id'] in users:
-        del users[data['id']]
+    if 'id' in users:
+        users['id'] = data
+        del users['id']
         return {
             'User has been deleted' : f"data{['id']} is no longer here."
         }

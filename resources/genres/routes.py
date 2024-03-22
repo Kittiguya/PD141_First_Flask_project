@@ -1,5 +1,6 @@
 from flask import request
 
+from schemas import GenreSchema
 from . import bp
 
 from db import genres
@@ -17,7 +18,7 @@ def get_genres():
 def create_genre():
     data = request.get_json()
     print(data)
-    genres[data['genre']] = data
+    genres['genre'] = data
     return {
         'Genre added successfully' : f"data{['genre']} has been added! NICE!"
     }
@@ -25,8 +26,8 @@ def create_genre():
 @bp.route('/genres', methods=['PUT'])
 def update_genre():
     data = request.get_json()
-    if data['genre'] in genres:
-        genres[data['genre']] = data
+    if 'genre' in genres:
+        genres['genre'] = data
         return {
             'Genre updated' : f"data{['genre']} has some new info!"
         }
@@ -37,8 +38,8 @@ def update_genre():
 @bp.route('/genres', methods=['DELETE'])
 def delete_genre():
     data = request.get_json()
-    if data['genre'] in genres:
-        del genres[data['genre']]
+    if 'genre' in genres:
+        del genres['genre']
         return {
             'Genre has been deleted' : f"data{['genre']} is no longer around"
         }

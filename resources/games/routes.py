@@ -1,6 +1,6 @@
 from flask import request
 
-
+from schemas import GamesSchema
 from . import bp
 from db import games
 
@@ -26,7 +26,7 @@ def create_game():
 @bp.route('/games', methods=['PUT'])
 def update_game():
     data = request.get_json()
-    if data['name'] in games:
+    if 'name' in games:
         games['name'] = data 
         return {
             'Game updated' : games['name']
