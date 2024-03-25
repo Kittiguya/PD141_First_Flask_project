@@ -3,7 +3,7 @@ from flask import request
 from schemas import GamesSchema
 from . import bp
 from db import games
-
+from models.games_models import GamesModel
 
 
 

@@ -1,9 +1,12 @@
-from flask import request
+from flask import Flask, request
 
 from schemas import UserSchema
 from . import bp
 
+app = Flask(__name__)
+
 from db import users
+from models.users_models import UserModel
 
 
 

@@ -4,7 +4,7 @@ from schemas import GenreSchema
 from . import bp
 
 from db import genres
-
+from models.genres_models import GenresModel
 
 
 @bp.route('/genres')
