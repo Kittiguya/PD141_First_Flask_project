@@ -6,9 +6,8 @@ from marshmallow import Schema, fields
 class GamesSchema(Schema):
     id = fields.Str(dump_only=True)
     name = fields.Str(dump_only=True)
-    studio = fields.Str(dump_only=True)
     description = fields.Str(dump_only=True)
-    genre = fields.Str(dump_only=True)
+    studio = fields.Str(dump_only=True)
 
 
 class GenreSchema(Schema):
@@ -25,3 +24,11 @@ class UserSchema(Schema):
     last_name = fields.Str()
 
 
+class GamesWithPostsSchemas(UserSchema):
+    posts = fields.List(fields.Nested(GamesSchema), dump_only=True)
+
+class GenreWithPostsSchemas(GenreSchema):
+    posts = fields.List(fields.Nested(GenreSchema), dump_only=True)
+
+class UserWithPostsSchemas(UserSchema):
+    posts = fields.List(fields.Nested(UserSchema), dump_only=True)

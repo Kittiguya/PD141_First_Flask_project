@@ -1,48 +1,46 @@
-from flask import request
-
-from schemas import GenreSchema
+from flask import abort
+from flask.views import MethodView
+from schemas import GenreSchema, GenreWithPostsSchemas
 from . import bp
 
-from db import genres
 from models.genres_models import GenresModel
 
 
 @bp.route('/genres')
-def get_genres():
-    return {
-        'genres' : list(genres.values())
-    }
+class GenresList(MethodView):
+
+    @bp.response(200, GenreSchema(many=True))
+    def get(self):
+        return GenresModel.query.all()
 
 
-@bp.route('/genres', methods=['POST'])
-def create_genre():
-    data = request.get_json()
-    print(data)
-    genres['genre'] = data
-    return {
-        'Genre added successfully' : f"data{['genre']} has been added! NICE!"
-    }
+    @bp.arguments(GenreWithPostsSchemas)
+    @bp.response(201, GenreSchema)
+    def post(self, data):
+        try:
+            genre = GenresModel()
+            
+            genre.save_genre()
+            return genre
+        except:
+            abort(400, message="genre already exists")
+        
 
-@bp.route('/genres', methods=['PUT'])
-def update_genre():
-    data = request.get_json()
-    if 'genre' in genres:
-        genres['genre'] = data
-        return {
-            'Genre updated' : f"data{['genre']} has some new info!"
-        }
-    return {
-        'error' : "No genre found with that name"
-    }
+    @bp.arguments(GenreSchema)
+    @bp.response(201, GenreWithPostsSchemas)
+    def update_genres(self, data, id):
+        genre = GenresModel.query.get(id)
+        if genre:
+            genre.from_dict(data)
+            genre.save_genre()
+            return {'message' : "genre updated"}, 201
+        else:
+            abort(300, message="not a valid genre")
 
-@bp.route('/genres', methods=['DELETE'])
-def delete_genre():
-    data = request.get_json()
-    if 'genre' in genres:
-        del genres['genre']
-        return {
-            'Genre has been deleted' : f"data{['genre']} is no longer around"
-        }
-    return {
-        'ERROR OI ERROR' : "You can't delete something that doesn't exist!"
-    }
+
+    def delete_genre(self, id):
+        genre = GenresModel.query.get(id)
+        if genre:
+            genre.del_user()
+            return {"message" : "user has been deleted"}, 200
+        abort(400, message="not a valid genre")

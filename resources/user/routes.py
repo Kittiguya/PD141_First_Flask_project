@@ -1,61 +1,62 @@
-from flask import Flask, request
-
-from schemas import UserSchema
+from flask import Flask, abort, request
+from flask.views import MethodView
+from schemas import UserSchema, UserWithPostsSchemas
 from . import bp
 
-app = Flask(__name__)
-
-from db import users
+from app import app
 from models.users_models import UserModel
 
 
 
+
+
 @bp.route('/users')
-def get_users():
-    return {
-        'users' : list(users.values())
-    }
+class UserList(MethodView):
 
+    @bp.response(200, UserSchema(many=True))
+    def get(self):
+        return UserModel.query.all()
 
-@bp.route('/user', methods=['POST'])
-def create_user():
-    data = request.get_json()
-    print(data)
-    users['id'] = data
-    return {
-        'User created successfully' : users['id']
-    }
-
+    @bp.arguments(UserSchema)
+    @bp.response(201, UserWithPostsSchemas)
+    def post(self, data):
+        try:
+            user = UserModel()
+            user.from_dict(data)
+            user.save_user()
+            return user
+        except:
+            abort(400, message="username or email already taken, please try a different one!")
+   
 
 @bp.route('/user/<int:id>')
-def get_ind_user(id):
-    if id in users:
-        return {
-            'user' : users[id]
-        }
-    return {
-        'RUH ROH RAGGY' : 'SOMETHING WENT WRONG, WRONG USER ID'
-    }
+class User(MethodView):
 
+    @bp.response(200, UserWithPostsSchemas)
+    def get(self, id):
+        user = UserModel.query.get(id)
+        if user:
+            return user
+        else: 
+            abort(400, msg="not a valid user")
 
-@bp.route('/user', methods=['PUT'])
-def update_user():
-    data = request.get_json()
-    if 'id' in users:
-        users['id'] = data 
-        return {
-            'user updated' : users['id']
-        }
+    @bp.arguments(UserSchema)
+    @bp.response(200, UserWithPostsSchemas)
+    def put(self, data, id):
+        user = UserModel.query.get(id)
+        if user:
+            user.from_dict(data)
+            user.save_user() 
+            return {"message" : "user updated"}, 201
+        else:
+            abort(400, message="not a valid user")
 
-@bp.route('/user', methods=['DELETE'])
-def delete_user():
-    data = request.get_json()
-    if 'id' in users:
-        users['id'] = data
-        del users['id']
-        return {
-            'User has been deleted' : f"data{['id']} is no longer here."
-        }
-    return {
-        'error' : "can't delete what isn't there!"
-    }
+    
+    def delete_user():
+        user = UserModel.query.get(id)
+        if user:
+            user.del_user()
+            
+            return {"message" : "user has been deleted"}, 200
+        abort(400, message="not a valid user")
+        
