@@ -7,3 +7,9 @@ Anyways i hope you enjoy! These will only improve the more im taught and learn!
 I added an entire genre category. And made sure to tag the genres and the games together. I haven't properly linked them. The values are just assigned by default now. 
 There is a create/get/put/delete created for genres now. 
 You'll notice genre is set up 2 seperate ways as Genre and genre. That was just to ensure there werent any conflicting spelling errors for w.e the pc could find. (it didnt happen, this was a precautionary step)
+
+
+
+Kind of stuck, data base is initiliazed and connected properly. Everything still shows on my personal end using Postman that Games/Genres both still do everything right. Users still return the not allowed error. 
+Only thing not tried is converting things to MethodView (100% sure itll fix the users issues ive ran into). 
+Other issue is: for some weird reason anything i submit through postman isnt being pushed through to the live database. That might be another issue of needing MethodView for what im trying to accomplish. 
