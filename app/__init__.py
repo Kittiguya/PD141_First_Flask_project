@@ -3,11 +3,12 @@ from flask_smorest import Api
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_jwt_extended import create_access_token,get_jwt,get_jwt_identity, unset_jwt_cookies, jwt_required, JWTManager
-
+from flask_cors import CORS
                                
 from Config import Config
 
 app = Flask(__name__)
+CORS(app)
 app.config.from_object(Config)
 api = Api(app)
 app.config["JWT_SECRET_KEY"] = "SECRET_KEY"

@@ -1,32 +1,31 @@
 from flask import abort
 from flask.views import MethodView
-from schemas import GamesSchema, GamesWithPostsSchemas
+from schemas import GamesSchemas, GamesWithPostsSchemas
 from . import bp
 
-from app import app
 from models.games_models import GamesModel
 
 
 @bp.route('/games')
 class GamesList(MethodView):
 
-    @bp.response(200, GamesSchema(many=True))
+    @bp.response(200, GamesSchemas(many=True))
     def get(self):
         return GamesModel.query.all()
     
-    @bp.arguments(GamesSchema)
     @bp.response(201, GamesWithPostsSchemas)
-    def post(self, data):
+    @bp.arguments(GamesSchemas)
+    def post(self):
         try:
-            user = GamesModel()
-            user.from_dict(data)
-            user.save_user()
-            return user
+            games = GamesModel()
+            
+            games.save_user()
+            return games
         except:
             abort(400, message="Game already exists, please try a different one!")
 
     @bp.response(200, GamesWithPostsSchemas)
-    @bp.arguments(GamesSchema)
+    @bp.arguments(GamesSchemas)
     def put(self, data, id):
         games = GamesModel.query.get(id)
         if games:

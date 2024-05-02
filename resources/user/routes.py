@@ -18,10 +18,11 @@ class UserList(MethodView):
     def get(self):
         return UserModel.query.all()
 
-    @jwt_required
+    # @jwt_required
     @bp.arguments(UserSchema)
     @bp.response(201, UserWithPostsSchemas)
     def post(self, data):
+        print(data)
         try:
             user = UserModel()
             user.from_dict(data)

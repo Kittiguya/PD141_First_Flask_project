@@ -5,8 +5,8 @@ from app import db
 class GenresModel(db.Model):
     __tablename__ = 'genre'
 
-    id = db.Column(db.Integer, primary_key =True)
-    genre = db.Column(db.String(50), nullable=True, unique=True)
+    
+    genre = db.Column(db.String(50), primary_key=True)
 
 
     def save_genre(self):

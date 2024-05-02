@@ -3,15 +3,13 @@ from marshmallow import Schema, fields
 
 
 
-class GamesSchema(Schema):
-    id = fields.Str(dump_only=True)
+class GamesSchemas(Schema):
     name = fields.Str(dump_only=True)
     description = fields.Str(dump_only=True)
     studio = fields.Str(dump_only=True)
 
 
-class GenreSchema(Schema):
-    id = fields.Str(dump_only=True)
+class GenreSchemas(Schema):
     genre = fields.Str(dump_only=True)
 
 
@@ -24,11 +22,11 @@ class UserSchema(Schema):
     last_name = fields.Str()
 
 
-class GamesWithPostsSchemas(UserSchema):
-    posts = fields.List(fields.Nested(GamesSchema), dump_only=True)
+class GamesWithPostsSchemas(GamesSchemas):
+    posts = fields.List(fields.Nested(GamesSchemas), dump_only=True)
 
-class GenreWithPostsSchemas(GenreSchema):
-    posts = fields.List(fields.Nested(GenreSchema), dump_only=True)
+class GenreWithPostsSchemas(GenreSchemas):
+    posts = fields.List(fields.Nested(GenreSchemas), dump_only=True)
 
 class UserWithPostsSchemas(UserSchema):
     posts = fields.List(fields.Nested(UserSchema), dump_only=True)

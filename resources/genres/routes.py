@@ -1,6 +1,6 @@
 from flask import abort
 from flask.views import MethodView
-from schemas import GenreSchema, GenreWithPostsSchemas
+from schemas import GenreSchemas, GenreWithPostsSchemas
 from . import bp
 
 from models.genres_models import GenresModel
@@ -9,13 +9,13 @@ from models.genres_models import GenresModel
 @bp.route('/genres')
 class GenresList(MethodView):
 
-    @bp.response(200, GenreSchema(many=True))
+    @bp.response(200, GenreSchemas(many=True))
     def get(self):
         return GenresModel.query.all()
 
 
     @bp.arguments(GenreWithPostsSchemas)
-    @bp.response(201, GenreSchema)
+    @bp.response(201, GenreSchemas)
     def post(self, data):
         try:
             genre = GenresModel()
@@ -26,7 +26,7 @@ class GenresList(MethodView):
             abort(400, message="genre already exists")
         
 
-    @bp.arguments(GenreSchema)
+    @bp.arguments(GenreSchemas)
     @bp.response(201, GenreWithPostsSchemas)
     def update_genres(self, data, id):
         genre = GenresModel.query.get(id)
