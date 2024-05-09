@@ -18,7 +18,7 @@ class UserList(MethodView):
     def get(self):
         return UserModel.query.all()
 
-    # @jwt_required
+    @jwt_required
     @bp.arguments(UserSchema)
     @bp.response(201, UserWithPostsSchemas)
     def post(self, data):
@@ -72,6 +72,7 @@ class User(MethodView):
 def login():
     login_data=request.get_json()
     username = login_data['username']
+
 
     user = UserModel.query.filter_by(username = username).first()
     if user and user.check_password(login_data['password']):

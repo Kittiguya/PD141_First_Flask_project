@@ -8,7 +8,7 @@ from flask_cors import CORS
 from Config import Config
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, resources={r"/api/": {"origins": "http://localhost:5173"}})
 app.config.from_object(Config)
 api = Api(app)
 app.config["JWT_SECRET_KEY"] = "SECRET_KEY"
