@@ -8,7 +8,7 @@ from flask_cors import CORS
 from Config import Config
 
 app = Flask(__name__)
-CORS(app, resources={r"/api/": {"origins": "http://localhost:5173"}})
+CORS(app)
 app.config.from_object(Config)
 api = Api(app)
 app.config["JWT_SECRET_KEY"] = "SECRET_KEY"
@@ -25,5 +25,3 @@ from resources.genres import bp as genres_bp
 app.register_blueprint(genres_bp)
 from resources.user import bp as users_bp
 app.register_blueprint(users_bp)
-
-

@@ -43,4 +43,3 @@ class GamesList(MethodView):
             return {"Game has been deleted" : "Game has been deleted"}, 200
         abort(400, message="not a valid user")
                 
-            
